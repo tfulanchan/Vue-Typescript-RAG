@@ -6,13 +6,13 @@ const props = defineProps<{
 const { chat, state, firstMessage } = useChatAi({ agent: "facebook" })
 const announcement = computed(() => firstMessage.value?.content);
 
-const generate = nextTick(() => chat(props));
+const generate = () => nextTick(() => chat(props));
 defineExpose({
     generate,
 })
 const postURL = computed(
     () =>
-        `https://www.facebook.com/sharer/sharer.php?u=${encodedURIComponent(
+        `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
             props.url
         )}`
 );

@@ -1,19 +1,19 @@
 <script setup lang="ts">
-// import { AsyncState } from "~~/types";
 const props = defineProps<{
     url: string;
     temperature: number
 }>();
+import type { AsyncState } from "~~/types";
+// const state = ref<AsyncState>("complete");
 const { chat, state, firstMessage } = useChatAi({ agent: "twitter" })
 const announcement = computed(() => firstMessage.value?.content);
-// const state = ref<AsyncState>("complete");
-const generate = nextTick(() => chat(props));
+const generate = () => nextTick(() => chat(props));
 defineExpose({
     generate,
 });
 const postURL = computed(
     () =>
-        `https://twitter.com/intent/tweet?text=${encodedURIComponent(
+        `https://twitter.com/intent/tweet?text=${encodeURIComponent(
             announcement.value || ""
         )}`
 );
@@ -23,7 +23,7 @@ const postURL = computed(
         <div class="flex w-full justify-between items-center">
             <div class="text-xs">
                 Character Count:
-                <strong>{{ announcement.length }}</strong>
+                <strong>{{ announcement?.length }}</strong>
             </div>
             <div>
                 <button class="btn btn-neutral" @click="generate()">Regenerate</button>
